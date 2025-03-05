@@ -1,11 +1,20 @@
 import Link from 'next/link';
 import { getBlogPosts } from '@/lib/blog';
 import { Card } from "@/components/ui/card";
-import { ArrowRight, Calendar} from 'lucide-react';
+import { ArrowRight, Calendar } from 'lucide-react';
 import { formatDate } from "@/lib/utils";
 
-export default function BlogPage() {
-  const posts = getBlogPosts();
+export default async function BlogPage() {
+  console.log("[Blog Page] Fetching blog posts for /novinky page");
+  // Filter out any null posts to ensure type safety
+  const posts = getBlogPosts().filter(Boolean);
+  console.log(`[Blog Page] Fetched ${posts.length} posts for display`);
+  
+  if (posts.length === 0) {
+    console.log("[Blog Page] No posts found to display");
+  } else {
+    console.log("[Blog Page] Post slugs:", posts.map(post => post.slug).join(', '));
+  }
   
   return (
     <main className="min-h-screen bg-gradient-to-b from-brand-50 to-white pb-8">

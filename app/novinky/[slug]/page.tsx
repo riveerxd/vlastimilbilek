@@ -92,7 +92,7 @@ export default async function BlogPostPage({
           )}
 
           <div className="prose prose-lg max-w-none">
-            <HtmlContent content={post.content} />
+            <HtmlContent content={post.content || ""} />
           </div>
         </article>
       </div>
