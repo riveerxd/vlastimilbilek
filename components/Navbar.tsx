@@ -10,6 +10,7 @@ const Navbar = () => {
     { href: "/", label: "Domů" },
     { href: "/sluzby", label: "Služby" },
     { href: "/reference", label: "Reference" },
+    { href: "/novinky", label: "Novinky" },
     { href: "/pro-podnikove-ekology", label: "Pro podnikové ekology" },
     { href: "/o-mne", label: "O mně" },
     { href: "/kontakt", label: "Kontakt" },

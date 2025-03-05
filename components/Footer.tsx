@@ -1,8 +1,46 @@
-import { Mail, Phone, MapPin, PhoneCall } from "lucide-react";
+"use client";
+import { Mail, Phone, MapPin, PhoneCall, User } from "lucide-react";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const [isAdmin, setIsAdmin] = useState(false);
+  const router = useRouter();
+
+  // Check if user is logged in as admin
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      try {
+        const response = await fetch("/api/auth/check", {
+          method: "GET",
+          credentials: "include",
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          setIsAdmin(data.isAdmin);
+        } else {
+          setIsAdmin(false);
+        }
+      } catch (error) {
+        console.error("Error checking admin status:", error);
+        setIsAdmin(false);
+      }
+    };
+    
+    checkAdminStatus();
+  }, []);
+
+  const handleAdminClick = () => {
+    if (isAdmin) {
+      router.push("/admin/novinky");
+    } else {
+      router.push("/admin/login?redirect=/admin/novinky");
+    }
+  };
+
   const contactInfo = [
     {
       icon: <Mail className="w-4 h-4" />,
@@ -58,6 +96,13 @@ export function Footer() {
               <Link href="/reference" className="hover:text-brand-800 transition-colors">
                 Reference
               </Link>
+              <button
+                onClick={handleAdminClick}
+                className="flex items-center gap-1 hover:text-brand-800 transition-colors"
+              >
+                <User className="w-4 h-4" />
+                <span>Admin</span>
+              </button>
             </div>
           </div>
         </div>
